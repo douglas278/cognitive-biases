@@ -14,12 +14,14 @@
         h1 {
             text-align: center;
             color: #FFFFFF;
+            margin-bottom: 30px;
         }
         .bias-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Wider base width */
             gap: 20px;
-            max-width: 1200px;
+            max-width: 100%; /* Full width of viewport */
+            width: 90%; /* Slightly less than full for margins */
             margin: 0 auto;
         }
         .bias {
@@ -52,6 +54,17 @@
             margin-top: 20px;
             font-style: italic;
             color: #888;
+        }
+        /* Media Queries for Wider Screens */
+        @media (min-width: 1200px) {
+            .bias-container {
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Larger cards on big screens */
+            }
+        }
+        @media (min-width: 1600px) {
+            .bias-container {
+                grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); /* Even wider for huge screens */
+            }
         }
     </style>
 </head>
@@ -259,6 +272,6 @@
             <p>When faced with evidence against your beliefs, you dig in harder, rejecting it outright. A climate skeptic might cling tighter to denial after seeing solid data, doubling down.</p>
         </div>
     </div>
-    <footer>How messed up are you, really?</footer>
+    <footer>Know Your Mind, Master Your Choices</footer>
 </body>
 </html>
