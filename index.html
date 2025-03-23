@@ -21,32 +21,32 @@
             margin-bottom: 20px;
             display: flex;
             justify-content: center;
-            gap: 20px; /* Increased gap for spacing between toggles */
+            gap: 20px;
         }
         .toggle-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px; /* Space between emoji and label */
+            gap: 5px;
         }
         button {
-            font-size: 36px; /* Larger emojis */
-            background: none; /* No background */
-            border: none; /* No border */
-            padding: 0; /* Remove padding */
+            font-size: 36px;
+            background: none;
+            border: none;
+            padding: 0;
             cursor: pointer;
-            color: #E0E0E0; /* Matches body text color */
-            transition: opacity 0.3s; /* Smooth opacity transition */
+            color: #E0E0E0;
+            transition: opacity 0.3s;
         }
         button.active {
-            opacity: 1; /* Full opacity for active */
+            opacity: 1;
         }
         button.inactive {
-            opacity: 0.4; /* More dimmed for inactive (was 0.6) */
+            opacity: 0.4;
         }
         .toggle-item span {
-            font-size: 14px; /* Label size */
-            color: #B0B0B0; /* Lighter gray for label */
+            font-size: 14px;
+            color: #B0B0B0;
         }
         .bias-container {
             display: grid;
@@ -114,6 +114,10 @@
             <button id="toggleJa" class="inactive">🇯🇵</button>
             <span id="labelJa"></span>
         </div>
+        <div class="toggle-item">
+            <button id="toggleFi" class="inactive">🇫🇮</button>
+            <span id="labelFi"></span>
+        </div>
     </div>
     <div class="bias-container" id="biasContainer"></div>
     <footer id="footer"></footer>
@@ -122,12 +126,14 @@
     <script src="constants_en.js"></script>
     <script src="constants_zh.js"></script>
     <script src="constants_ja.js"></script>
+    <script src="constants_fi.js"></script>
 
     <script>
         const languageMap = {
             'en': constants_en,
             'zh': constants_zh,
-            'ja': constants_ja
+            'ja': constants_ja,
+            'fi': constants_fi
         };
 
         let currentLang = 'en'; // Start with English
@@ -150,15 +156,17 @@
             document.getElementById('title').textContent = constants.title;
             document.getElementById('footer').textContent = constants.footer;
 
-            // Update labels (now separate for each toggle)
+            // Update labels
             document.getElementById('labelEn').textContent = languageMap['en'].label;
             document.getElementById('labelZh').textContent = languageMap['zh'].label;
             document.getElementById('labelJa').textContent = languageMap['ja'].label;
+            document.getElementById('labelFi').textContent = languageMap['fi'].label;
 
             // Update button states
             document.getElementById('toggleEn').className = currentLang === 'en' ? 'active' : 'inactive';
             document.getElementById('toggleZh').className = currentLang === 'zh' ? 'active' : 'inactive';
             document.getElementById('toggleJa').className = currentLang === 'ja' ? 'active' : 'inactive';
+            document.getElementById('toggleFi').className = currentLang === 'fi' ? 'active' : 'inactive';
         }
 
         // Add event listeners for each toggle button
@@ -174,6 +182,11 @@
 
         document.getElementById('toggleJa').addEventListener('click', () => {
             currentLang = 'ja';
+            renderBiases();
+        });
+
+        document.getElementById('toggleFi').addEventListener('click', () => {
+            currentLang = 'fi';
             renderBiases();
         });
 
