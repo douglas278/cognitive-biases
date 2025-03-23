@@ -19,6 +19,10 @@
         .toggle {
             text-align: center;
             margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
         button {
             padding: 10px 20px;
@@ -84,152 +88,56 @@
     </style>
 </head>
 <body>
-    <h1 id="title">Top 50 Cognitive Biases: The Mind’s Hidden Traps</h1>
+    <h1 id="title"></h1>
     <div class="toggle">
-        <button id="langToggle">Switch to Chinese</button>
+        <span id="langLabel"></span>
+        <button id="langToggle">🇬🇧</button>
     </div>
     <div class="bias-container" id="biasContainer"></div>
-    <footer id="footer">Know Your Mind, Master Your Choices</footer>
+    <footer id="footer"></footer>
+
+    <!-- Import language constants -->
+    <script src="constants_en.js"></script>
+    <script src="constants_zh.js"></script>
+    <script src="constants_ja.js"></script>
 
     <script>
-        const biases = {
-            en: [
-                { name: "Confirmation Bias", desc: "This is the mind’s tendency to actively seek out, interpret, and recall information that aligns with what you already believe or hypothesize, while conveniently ignoring or downplaying evidence that contradicts it. For instance, if you think labeled diets work, you might focus on success stories and brush off failures, reinforcing your view despite mixed data." },
-                { name: "Anchoring Bias", desc: "This occurs when you place too much weight on the first piece of information you encounter—the 'anchor'—when making decisions, even if it’s random or unrelated. Imagine negotiating a car price: if the seller starts at $20,000, your counteroffer might hover around that number, even if the car’s worth far less." },
-                { name: "Availability Heuristic", desc: "This mental shortcut leads you to judge the probability of events based on how readily examples spring to mind, often influenced by recent or dramatic incidents. After seeing a plane crash on the news, you might overestimate flying risks, even though driving is statistically more dangerous." },
-                { name: "Dunning-Kruger Effect", desc: "A fascinating quirk where those with limited knowledge or skill in a domain overestimate their abilities because they don’t grasp their own shortcomings, while highly skilled people might doubt themselves due to awareness of complexity. Think of a novice cook boasting about their skills versus a chef who’s humbly refining theirs." },
-                { name: "Hindsight Bias", desc: "Once an event happens, this bias tricks you into thinking it was predictable all along, making the past seem more obvious than it was. After a team wins a championship, you might say, 'I knew they’d do it,' even if you were unsure during the season." },
-                { name: "Sunk Cost Fallacy", desc: "This is the urge to stick with a failing endeavor—be it time, money, or effort—because you’ve already invested so much, even when cutting losses makes more sense. Picture staying in a bad movie just because you paid for the ticket, hoping it gets better." },
-                { name: "Framing Effect", desc: "How information is worded or presented can drastically sway your choices, even if the facts don’t change. A surgery with a '90% success rate' sounds more appealing than one with a '10% failure rate,' though they’re identical, influencing your decision based on emotional pull." },
-                { name: "Self-Serving Bias", desc: "This is when you credit your successes to your own brilliance or hard work but blame failures on outside forces like luck or others’ mistakes. If you ace a test, it’s your smarts; if you flunk, it’s the teacher’s fault—protecting your ego either way." },
-                { name: "Bandwagon Effect", desc: "You’re more likely to adopt a belief or behavior because everyone else is doing it, assuming the crowd’s momentum signals truth. Think of jumping on a viral trend—like buying a gadget—because it’s everywhere, not because you’ve vetted it." },
-                { name: "Normalcy Bias", desc: "This is the comforting but risky assumption that life will keep rolling along as it always has, causing you to underestimate the likelihood or severity of disruptions. During a hurricane warning, you might stay home thinking, 'It’s never flooded here before,' ignoring real danger." },
-                { name: "Overconfidence Bias", desc: "This happens when you’re overly sure of your own knowledge, skills, or predictions, often glossing over risks or gaps. Picture someone betting big on a stock 'gut feeling' without research, only to be blindsided by a crash." },
-                { name: "Negativity Bias", desc: "Your brain gives more attention and emotional weight to negative experiences or information than positive ones, skewing your outlook. A single harsh comment might stick with you longer than a dozen compliments, shaping how you see yourself." },
-                { name: "Recency Bias", desc: "This is when the latest events or data overshadow older ones in your mind, tilting your decisions. If a friend’s been nice lately, you might forgive years of flakiness, focusing only on the fresh good vibes." },
-                { name: "Attribution Bias", desc: "You tend to chalk up others’ actions to their personality ('They’re just lazy') while excusing your own as situational ('I was tired'). If someone cuts you off in traffic, they’re a jerk; if you do it, it’s because you’re late." },
-                { name: "Loss Aversion", desc: "The fear of losing something outweighs the joy of gaining something equal, driving you to avoid risks. You might cling to a sinking stock rather than sell, dreading the loss more than you’d celebrate a similar gain." },
-                { name: "Status Quo Bias", desc: "You favor keeping things as they are over changing them, even if change could improve your life, due to comfort or fear of the unknown. Sticking with a clunky old phone plan because switching feels like a hassle is a classic case." },
-                { name: "Optimism Bias", desc: "This is the rosy belief that you’re less likely to face misfortune and more likely to hit the jackpot compared to others. You might skip insurance thinking, 'I won’t get sick,' while assuming promotions come easy." },
-                { name: "Pessimism Bias", desc: "The flip side, where you overestimate the chances of things going wrong, expecting gloom more than reality justifies. Planning a picnic? You’re sure it’ll rain, even if the forecast says otherwise." },
-                { name: "Halo Effect", desc: "One glowing trait—like charm or looks—colors your whole view of someone or something, blinding you to flaws. A charismatic speaker might seem brilliant, even if their ideas are shaky." },
-                { name: "Illusion of Control", desc: "You overestimate your influence over outcomes, especially random ones, feeding a false sense of power. Blowing on dice or picking 'lucky' numbers in a lottery feels like it boosts your odds, though it doesn’t." },
-                { name: "Choice-Supportive Bias", desc: "After picking an option, you defend it by hyping its perks and downplaying its downsides, rewriting history to feel good. Bought a mediocre car? You’ll rave about its mileage and ignore the rattles." },
-                { name: "Survivorship Bias", desc: "You focus on what made it through—like successful companies—while ignoring what flopped, skewing your take. Studying only thriving startups might convince you success is common, missing the graveyard of failures." },
-                { name: "Gambler’s Fallacy", desc: "This is the flawed idea that past random events sway future ones, like expecting heads after five tails. At a roulette table, you might bet big on black after a red streak, thinking it’s 'due,' despite even odds." },
-                { name: "Stereotyping", desc: "You slap broad traits on people based on their group, oversimplifying reality. Assuming all programmers are antisocial geeks ignores the diversity, leaning on lazy mental shortcuts instead." },
-                { name: "Blind Spot Bias", desc: "You’re quick to spot biases in others but miss them in yourself, assuming you’re more objective than you are. You might call out a friend’s stubbornness while denying your own dug-in opinions." },
-                { name: "Curse of Knowledge", desc: "Once you know something, it’s hard to imagine not knowing it, leading you to overestimate others’ understanding. A teacher might breeze through a concept, forgetting how tricky it was to learn initially." },
-                { name: "Outcome Bias", desc: "You judge a decision’s quality by how it turns out, not how sound it was at the time. A risky bet that pays off seems genius in hindsight, even if it was reckless given the odds then." },
-                { name: "Mere Exposure Effect", desc: "Familiarity breeds fondness, even without reason—you start liking something just because you’ve seen it a lot. A jingle you hated might grow on you after hearing it on repeat." },
-                { name: "Primacy Effect", desc: "The first things you encounter stick harder in your memory and sway your views more than what comes later. Meeting someone charming upfront might overshadow their later rudeness." },
-                { name: "Regression to the Mean", desc: "You misread natural ups and downs as meaningful shifts, expecting extremes to last. A student’s fluke high score might seem like a breakthrough, but they’ll likely drift back to average next time." },
-                { name: "False Consensus Effect", desc: "You overestimate how many people share your views or habits, projecting your norms onto the world. Loving pineapple on pizza? You might assume most do, despite the heated debates." },
-                { name: "Contrast Effect", desc: "Your judgment of something shifts based on what it’s next to, not its own merits. A $50 shirt looks cheap after seeing a $500 one, but pricey next to a $10 tee." },
-                { name: "Authority Bias", desc: "You give extra credence to authority figures’ words or actions, even when evidence disagrees. A doctor’s offhand remark might outweigh data in your mind, just because of their title." },
-                { name: "Projection Bias", desc: "You assume others think or feel like you do, because it’s your default lens. If you’re mad about a delay, you might figure everyone else is too, missing their indifference." },
-                { name: "Clustering Illusion", desc: "Your brain spots patterns in random chaos, tricking you into seeing order where there’s none. Seeing three red cars in a row might feel like a trend, not just chance." },
-                { name: "Endowment Effect", desc: "You overvalue what you own simply because it’s yours, making it tough to let go. A beat-up old mug might seem priceless to you, though you’d never buy it off a shelf." },
-                { name: "Hyperbolic Discounting", desc: "You crave instant rewards over bigger future ones, irrationally slashing long-term value. Taking $50 now instead of $100 in a year feels better, even if waiting pays off more." },
-                { name: "Zero-Risk Bias", desc: "You’d rather erase all risk, even if it’s tiny, than accept a practical trade-off. Paying extra for '100% safe' gear might feel worth it, despite negligible danger otherwise." },
-                { name: "Affect Heuristic", desc: "Your emotions steer your decisions, coloring risks and rewards. A sunny mood might make a shaky investment seem golden, while fear could nix a solid opportunity." },
-                { name: "Base Rate Neglect", desc: "You overlook broad stats for vivid specifics, skewing your judgment. Hearing a rare disease story might scare you more than its 1% prevalence should warrant." },
-                { name: "Omission Bias", desc: "You see doing nothing as less harmful than acting, even if inaction’s worse. Skipping a vaccine might feel safer than risking side effects, despite higher disease odds." },
-                { name: "Escalation of Commitment", desc: "You pour more into a failing venture because you’re already invested, refusing to quit. Throwing cash at a dying project 'to make it work' can dig a deeper hole." },
-                { name: "Barnum Effect", desc: "You buy into vague, broad statements as personal truths, like in horoscopes. 'You’re insightful yet cautious' feels spot-on, though it fits almost anyone." },
-                { name: "Ingroup Bias", desc: "You favor your own crew—family, team, or culture—over outsiders, often unfairly. Cheering your school’s mediocre team while bashing a rival’s stars is a prime example." },
-                { name: "Peak-End Rule", desc: "You rate experiences by their high point and finish, not the whole journey. A vacation with a great finale might feel amazing, even if most days were meh." },
-                { name: "Law of Small Numbers", desc: "You leap to big conclusions from tiny samples, trusting flimsy data. Three good reviews might convince you a product’s flawless, ignoring broader trends." },
-                { name: "Hot-Hand Fallacy", desc: "You see a streak—like a basketball run—as skill, not luck, expecting it to continue. A player’s three baskets in a row might make you bet on a fourth, defying chance." },
-                { name: "Information Bias", desc: "You hoard data, even useless bits, thinking more info equals better choices. Researching a simple decision to death might delay action without adding clarity." },
-                { name: "Ambiguity Effect", desc: "You dodge options with unclear outcomes, even if they could beat known ones, due to unease. Picking a safe job over a vague startup gig might cost you big potential." },
-                { name: "Backfire Effect", desc: "When faced with evidence against your beliefs, you dig in harder, rejecting it outright. A climate skeptic might cling tighter to denial after seeing solid data, doubling down." }
-            ],
-            zh: [
-                { name: "确认偏见", desc: "这是大脑倾向于主动寻找、解释和回忆与你已有信念或假设一致的信息，同时方便地忽略或淡化与之矛盾的证据。例如，如果你认为某种饮食有效，你可能会关注成功案例而忽视失败案例，尽管数据参差不齐，但这会强化你的观点。" },
-                { name: "锚定效应", desc: "这是当你在做决定时过于重视你遇到的第一条信息——‘锚点’——即使它是随机的或无关的。想象你在谈判买车价格：如果卖家开价2万美元，你的还价可能会围绕这个数字，即使车的实际价值远低于此。" },
-                { name: "可用性启发", desc: "这种心理捷径让你根据脑海中容易浮现的例子来判断事件的可能性，通常受近期或戏剧性事件的影响。看到新闻报道飞机失事后，你可能会高估飞行的风险，尽管开车在统计上更危险。" },
-                { name: "达克效应", desc: "一个有趣的现象，知识或技能有限的人因不了解自己的不足而高估自己的能力，而高技能者因意识到复杂性而可能自我怀疑。想想一个新手厨师吹嘘自己的厨艺，而真正的厨师却在谦虚地精进。" },
-                { name: "后见之明偏见", desc: "一旦事件发生，这种偏见让你觉得它一直是可以预测的，让过去显得比实际更明显。一支队伍赢得冠军后，你可能会说，‘我就知道他们会赢，’尽管赛季中你并不确定。" },
-                { name: "沉没成本谬误", desc: "这是因为你已经投入了太多——时间、金钱或努力——而坚持一个失败的事业，即使放弃更明智。想象你因为买了票而继续看一部烂片，希望它会变好。" },
-                { name: "框架效应", desc: "信息如何措辞或呈现会极大地影响你的选择，即使事实不变。‘90%成功率’的手术听起来比‘10%失败率’更吸引人，尽管两者相同，这基于情感拉动你的决定。" },
-                { name: "自我服务偏见", desc: "这是将成功归功于自己的才华或努力，而将失败归咎于运气或他人的错误。如果考试得A，是你的聪明；如果不及格，是老师的问题——无论如何都保护你的自尊。" },
-                { name: "从众效应", desc: "你更可能因为大家都这样做而采纳某种信念或行为，假设人群的势头代表真相。想想因为某个小玩意儿到处都是就跳上潮流，而不是因为你验证过它。" },
-                { name: "常态偏见", desc: "这是安慰但危险的假设，认为生活会一如既往地继续，导致你低估干扰的可能性或严重性。飓风警告时，你可能待在家里想，‘这里从没被淹过，’无视真实危险。" },
-                { name: "过度自信偏见", desc: "这是当你对自己的知识、技能或预测过于自信时，常忽略风险或缺陷。想象有人凭‘直觉’大赌股票却没做研究，结果被崩盘惊呆。" },
-                { name: "消极偏见", desc: "你的大脑对负面经历或信息给予更多关注和情感重量，扭曲你的看法。一句刺耳的评论可能比一堆赞美更让你念念不忘，塑造你对自己的看法。" },
-                { name: "近因偏见", desc: "这是最近的事件或数据在你脑海中盖过较早的，倾斜你的决定。如果朋友最近对你好，你可能原谅他们多年的不可靠，只关注新鲜的正面氛围。" },
-                { name: "归因偏见", desc: "你倾向于将他人的行为归于他们的个性（‘他们就是懒’），而将自己的行为归为情境（‘我累了’）。有人超你车，他们是混蛋；你超别人，是因为你迟到了。" },
-                { name: "损失规避", desc: "失去某物的恐惧超过获得等值物的喜悦，推动你规避风险。你可能紧抓下跌的股票不愿卖，因为害怕损失胜过你庆祝类似收益的喜悦。" },
-                { name: "现状偏见", desc: "你倾向于保持现状而不是改变，即使改变能改善生活，因舒适或对未知的恐惧。坚持用老旧的电话套餐因为换新麻烦就是典型例子。" },
-                { name: "乐观偏见", desc: "这是乐观的信念，认为你比别人更不容易遭遇不幸，更容易成功。你可能不买保险想，‘我不会生病，’同时觉得升职很简单。" },
-                { name: "悲观偏见", desc: "反过来，你高估事情出错的可能，预期比现实更糟的阴郁。计划野餐？你确信会下雨，即使天气预报说不会。" },
-                { name: "光环效应", desc: "一个耀眼的特征——如魅力或外貌——影响你对某人或某物的整体看法，掩盖缺点。一个有魅力的演讲者可能看似才华横溢，即使他们的想法站不住脚。" },
-                { name: "控制错觉", desc: "你高估自己对结果的影响，尤其是随机事件，给你虚假的力量感。吹骰子或选‘幸运’号码感觉能提升彩票中奖率，尽管没用。" },
-                { name: "选择支持偏见", desc: "选定一个选项后，你通过夸大优点、淡化缺点来捍卫它，改写历史让自己感觉良好。买了辆平庸的车？你会大赞它的油耗而忽略杂音。" },
-                { name: "幸存者偏差", desc: "你关注成功通过的事物——如成功的公司——而忽略失败的，扭曲你的看法。只研究繁荣的初创公司可能让你觉得成功普遍，错过失败的墓地。" },
-                { name: "赌徒谬误", desc: "这是错误的想法，认为过去的随机事件会影响未来的，比如五次反面后期待正面。在轮盘赌桌上，红色的连胜后你可能大赌黑色，以为它‘该来了’，尽管概率不变。" },
-                { name: "刻板印象", desc: "你根据群体给人们贴上广泛的特征标签，过度简化现实。假设所有程序员都是反社交的怪人忽略了多样性，依赖懒惰的心理捷径。" },
-                { name: "盲点偏见", desc: "你很快发现他人的偏见却看不到自己的，假设自己比实际更客观。你可能指出朋友的固执，却否认自己固执的观点。" },
-                { name: "知识诅咒", desc: "一旦你知道某事，就很难想象不知道它，导致你高估他人的理解。老师可能快速讲解一个概念，忘了它最初有多难学。" },
-                { name: "结果偏见", desc: "你根据结果判断决策的好坏，而不是当时是否合理。冒险赌注成功看似天才，即使当时基于概率很鲁莽。" },
-                { name: "单纯暴露效应", desc: "熟悉滋生好感，即使无理由——你开始喜欢某物只因常看到它。一个讨厌的广告曲反复听后可能让你喜欢。" },
-                { name: "首因效应", desc: "你最先接触的事物在记忆中更牢固，比后来的更影响你的看法。先遇到一个迷人的人可能掩盖他们后来的粗鲁。" },
-                { name: "回归均值", desc: "你误将自然的起伏当作有意义的转变，期待极端持续。学生一次高分可能看似突破，但下次很可能回到平均水平。" },
-                { name: "虚假共识效应", desc: "你高估有多少人分享你的看法或习惯，将你的常态投射到世界。喜欢菠萝披萨？你可能觉得大多数人都喜欢，尽管争议激烈。" },
-                { name: "对比效应", desc: "你对某物的判断因旁边的参照而改变，而非其本身价值。50美元的衬衫在500美元旁显得便宜，但在10美元旁显得贵。" },
-                { name: "权威偏见", desc: "你对权威人物的话或行为格外信任，即使证据不符。医生的随口一言可能在你心中胜过数据，只因他们的头衔。" },
-                { name: "投射偏见", desc: "你假设别人和你一样思考或感受，因为这是你的默认视角。如果你对延迟生气，可能觉得别人也一样，错过他们的无所谓。" },
-                { name: "聚类错觉", desc: "你的大脑在随机混乱中发现模式，骗你看到不存在的秩序。连续看到三辆红车可能感觉像趋势，而非偶然。" },
-                { name: "禀赋效应", desc: "你因拥有某物而高估其价值，让放弃变得困难。一个破旧的旧杯子对你可能无价，尽管你不会从架子上买它。" },
-                { name: "双曲贴现", desc: "你渴望即时回报而非更大的未来回报，非理性地削减长期价值。现在拿50美元而不是一年后拿100美元感觉更好，即使等待回报更高。" },
-                { name: "零风险偏见", desc: "你宁愿消除所有风险，即使它微乎其微，也不愿接受实用权衡。为‘100%安全’的装备多花钱可能感觉值得，尽管其他危险微不足道。" },
-                { name: "情感启发", desc: "你的情绪引导你的决定，影响风险和回报的看法。好心情可能让不稳的投资看似黄金，而恐惧可能否定稳健的机会。" },
-                { name: "基准率忽视", desc: "你忽略广泛统计数据而关注生动细节，扭曲你的判断。听到罕见疾病故事可能比其1%的普遍性更让你害怕。" },
-                { name: "遗漏偏见", desc: "你认为不采取行动比行动危害小，即使不作为更糟。不打疫苗可能感觉比冒副作用风险更安全，尽管疾病几率更高。" },
-                { name: "承诺升级", desc: "你因已投入而为失败的事业投入更多，拒绝放弃。为一个垂死项目扔钱‘让它成功’可能挖更深的坑。" },
-                { name: "巴纳姆效应", desc: "你相信模糊、广泛的陈述是个人真相，如星座。‘你有洞察力但谨慎’感觉很准，尽管它几乎适用于任何人。" },
-                { name: "内群体偏见", desc: "你偏爱自己的群体——家人、团队或文化——胜过外人，常不公平。支持自己学校平庸的队伍而贬低对手的明星就是典型。" },
-                { name: "峰终定律", desc: "你根据经历的高点和结束评价它，而非全程。假期有个伟大结局可能感觉棒极了，即使大多数日子平平。" },
-                { name: "小数定律", desc: "你从微小样本跳到大结论，信任不可靠数据。三个好评可能让你觉得产品完美无瑕，忽略更广趋势。" },
-                { name: "热手谬误", desc: "你将连胜——如篮球连中——视为技能而非运气，期待它持续。球员连续三篮命中可能让你赌第四次，违背概率。" },
-                { name: "信息偏见", desc: "你囤积数据，即使无用，以为更多信息等于更好选择。为简单决定研究到死可能拖延行动而不添清晰。" },
-                { name: "模糊效应", desc: "你因不安而回避结果不明的选项，即使它们可能胜过已知选项。选稳定工作而非模糊的创业可能让你错失巨大潜力。" },
-                { name: "逆火效应", desc: "面对反驳你信念的证据时，你更固执，彻底拒绝。一个气候怀疑者看到可靠数据后可能更坚持否认，加倍下注。" }
-            ]
+        const languageMap = {
+            'en': constants_en,
+            'zh': constants_zh,
+            'ja': constants_ja
         };
 
-        let isEnglish = true;
+        let currentLang = 'en'; // Start with English
 
         function renderBiases() {
+            const constants = languageMap[currentLang];
             const container = document.getElementById('biasContainer');
-            const lang = isEnglish ? 'en' : 'zh';
-            const searchBase = isEnglish ? 'https://search.brave.com/search?q=' : 'https://www.baidu.com/s?wd=';
             container.innerHTML = '';
 
-            biases[lang].forEach(bias => {
+            constants.biases.forEach(bias => {
                 const div = document.createElement('div');
                 div.className = 'bias';
                 div.innerHTML = `
-                    <h2><a href="${searchBase}${encodeURIComponent(bias.name)}" target="_blank">${bias.name}</a></h2>
+                    <h2><a href="${constants.searchBase}${encodeURIComponent(bias.name)}" target="_blank">${bias.name}</a></h2>
                     <p>${bias.desc}</p>
                 `;
                 container.appendChild(div);
             });
 
-            document.getElementById('title').textContent = isEnglish 
-                ? "Top 50 Cognitive Biases: The Mind’s Hidden Traps" 
-                : "50大认知偏见：思维的隐藏陷阱";
-            document.getElementById('footer').textContent = isEnglish 
-                ? "Know Your Mind, Master Your Choices" 
-                : "了解你的内心，掌控你的选择";
-            document.getElementById('langToggle').textContent = isEnglish 
-                ? "Switch to Chinese" 
-                : "切换到英文";
+            document.getElementById('title').textContent = constants.title;
+            document.getElementById('footer').textContent = constants.footer;
+            document.getElementById('langLabel').textContent = constants.label;
+            document.getElementById('langToggle').textContent = 
+                currentLang === 'en' ? "🇨🇳" : // Switch to Chinese
+                currentLang === 'zh' ? "🇯🇵" : // Switch to Japanese
+                "🇬🇧"; // Switch to English
         }
 
         document.getElementById('langToggle').addEventListener('click', () => {
-            isEnglish = !isEnglish;
+            currentLang = currentLang === 'en' ? 'zh' :
+                          currentLang === 'zh' ? 'ja' :
+                          'en'; // Cycle: English -> Chinese -> Japanese -> English
             renderBiases();
         });
 
