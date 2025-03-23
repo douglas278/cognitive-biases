@@ -93,7 +93,7 @@
 
     <script>
         const biases = {
-            en: [
+            enincluden: [
                 { name: "Confirmation Bias", desc: "This is the mind’s tendency to actively seek out, interpret, and recall information that aligns with what you already believe or hypothesize, while conveniently ignoring or downplaying evidence that contradicts it. For instance, if you think labeled diets work, you might focus on success stories and brush off failures, reinforcing your view despite mixed data." },
                 { name: "Anchoring Bias", desc: "This occurs when you place too much weight on the first piece of information you encounter—the 'anchor'—when making decisions, even if it’s random or unrelated. Imagine negotiating a car price: if the seller starts at $20,000, your counteroffer might hover around that number, even if the car’s worth far less." },
                 { name: "Availability Heuristic", desc: "This mental shortcut leads you to judge the probability of events based on how readily examples spring to mind, often influenced by recent or dramatic incidents. After seeing a plane crash on the news, you might overestimate flying risks, even though driving is statistically more dangerous." },
@@ -203,11 +203,11 @@
 
         function renderBiases() {
             const container = document.getElementById('biasContainer');
-            const lang = isEnglish ? 'en' : 'zh';
+            const langData = isEnglish ? biases.en : biases.zh;
             const searchBase = isEnglish ? 'https://search.brave.com/search?q=' : 'https://www.baidu.com/s?wd=';
             container.innerHTML = '';
 
-            biases[lang].forEach(bias => {
+            langData.forEach(bias => {
                 const div = document.createElement('div');
                 div.className = 'bias';
                 div.innerHTML = `
