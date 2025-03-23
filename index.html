@@ -21,28 +21,32 @@
             margin-bottom: 20px;
             display: flex;
             justify-content: center;
+            gap: 20px; /* Increased gap for spacing between toggles */
+        }
+        .toggle-item {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 5px; /* Space between emoji and label */
         }
         button {
-            padding: 10px 20px;
-            font-size: 16px;
+            font-size: 36px; /* Larger emojis */
+            background: none; /* No background */
+            border: none; /* No border */
+            padding: 0; /* Remove padding */
             cursor: pointer;
-            background: #4FC3F7;
-            color: #1A1A1A;
-            border: none;
-            border-radius: 5px;
-            transition: background 0.3s, opacity 0.3s;
-        }
-        button:hover {
-            background: #81D4FA;
+            color: #E0E0E0; /* Matches body text color */
+            transition: opacity 0.3s; /* Smooth opacity transition */
         }
         button.active {
-            background: #0288D1; /* Darker blue for active state */
-            opacity: 1;
+            opacity: 1; /* Full opacity for active */
         }
         button.inactive {
-            opacity: 0.6; /* Dim inactive buttons */
+            opacity: 0.4; /* More dimmed for inactive (was 0.6) */
+        }
+        .toggle-item span {
+            font-size: 14px; /* Label size */
+            color: #B0B0B0; /* Lighter gray for label */
         }
         .bias-container {
             display: grid;
@@ -98,10 +102,18 @@
 <body>
     <h1 id="title"></h1>
     <div class="toggle">
-        <span id="langLabel"></span>
-        <button id="toggleEn" class="active">🇬🇧</button>
-        <button id="toggleZh" class="inactive">🇨🇳</button>
-        <button id="toggleJa" class="inactive">🇯🇵</button>
+        <div class="toggle-item">
+            <button id="toggleEn" class="active">🇬🇧</button>
+            <span id="labelEn"></span>
+        </div>
+        <div class="toggle-item">
+            <button id="toggleZh" class="inactive">🇨🇳</button>
+            <span id="labelZh"></span>
+        </div>
+        <div class="toggle-item">
+            <button id="toggleJa" class="inactive">🇯🇵</button>
+            <span id="labelJa"></span>
+        </div>
     </div>
     <div class="bias-container" id="biasContainer"></div>
     <footer id="footer"></footer>
@@ -137,7 +149,11 @@
 
             document.getElementById('title').textContent = constants.title;
             document.getElementById('footer').textContent = constants.footer;
-            document.getElementById('langLabel').textContent = constants.label;
+
+            // Update labels (now separate for each toggle)
+            document.getElementById('labelEn').textContent = languageMap['en'].label;
+            document.getElementById('labelZh').textContent = languageMap['zh'].label;
+            document.getElementById('labelJa').textContent = languageMap['ja'].label;
 
             // Update button states
             document.getElementById('toggleEn').className = currentLang === 'en' ? 'active' : 'inactive';
