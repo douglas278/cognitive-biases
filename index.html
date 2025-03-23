@@ -22,7 +22,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
         button {
             padding: 10px 20px;
@@ -32,9 +32,17 @@
             color: #1A1A1A;
             border: none;
             border-radius: 5px;
+            transition: background 0.3s, opacity 0.3s;
         }
         button:hover {
             background: #81D4FA;
+        }
+        button.active {
+            background: #0288D1; /* Darker blue for active state */
+            opacity: 1;
+        }
+        button.inactive {
+            opacity: 0.6; /* Dim inactive buttons */
         }
         .bias-container {
             display: grid;
@@ -91,7 +99,9 @@
     <h1 id="title"></h1>
     <div class="toggle">
         <span id="langLabel"></span>
-        <button id="langToggle">🇬🇧</button>
+        <button id="toggleEn" class="active">🇬🇧</button>
+        <button id="toggleZh" class="inactive">🇨🇳</button>
+        <button id="toggleJa" class="inactive">🇯🇵</button>
     </div>
     <div class="bias-container" id="biasContainer"></div>
     <footer id="footer"></footer>
@@ -128,16 +138,26 @@
             document.getElementById('title').textContent = constants.title;
             document.getElementById('footer').textContent = constants.footer;
             document.getElementById('langLabel').textContent = constants.label;
-            document.getElementById('langToggle').textContent = 
-                currentLang === 'en' ? "🇨🇳" : // Switch to Chinese
-                currentLang === 'zh' ? "🇯🇵" : // Switch to Japanese
-                "🇬🇧"; // Switch to English
+
+            // Update button states
+            document.getElementById('toggleEn').className = currentLang === 'en' ? 'active' : 'inactive';
+            document.getElementById('toggleZh').className = currentLang === 'zh' ? 'active' : 'inactive';
+            document.getElementById('toggleJa').className = currentLang === 'ja' ? 'active' : 'inactive';
         }
 
-        document.getElementById('langToggle').addEventListener('click', () => {
-            currentLang = currentLang === 'en' ? 'zh' :
-                          currentLang === 'zh' ? 'ja' :
-                          'en'; // Cycle: English -> Chinese -> Japanese -> English
+        // Add event listeners for each toggle button
+        document.getElementById('toggleEn').addEventListener('click', () => {
+            currentLang = 'en';
+            renderBiases();
+        });
+
+        document.getElementById('toggleZh').addEventListener('click', () => {
+            currentLang = 'zh';
+            renderBiases();
+        });
+
+        document.getElementById('toggleJa').addEventListener('click', () => {
+            currentLang = 'ja';
             renderBiases();
         });
 
