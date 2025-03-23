@@ -136,6 +136,10 @@
             <button id="toggleRu" class="inactive">🇷🇺</button>
             <span id="labelRu"></span>
         </div>
+        <div class="toggle-item">
+            <button id="toggleNl" class="inactive">🇳🇱</button>
+            <span id="labelNl"></span>
+        </div>
     </div>
     <div class="bias-container" id="biasContainer"></div>
     <footer id="footer"></footer>
@@ -147,6 +151,7 @@
     <script src="constants_fi.js"></script>
     <script src="constants_ar.js"></script>
     <script src="constants_ru.js"></script>
+    <script src="constants_nl.js"></script>
 
     <script>
         const languageMap = {
@@ -155,7 +160,8 @@
             'ja': constants_ja,
             'fi': constants_fi,
             'ar': constants_ar,
-            'ru': constants_ru
+            'ru': constants_ru,
+            'nl': constants_nl
         };
 
         let currentLang = 'en'; // Start with English
@@ -185,51 +191,7 @@
             document.getElementById('labelFi').textContent = languageMap['fi'].label;
             document.getElementById('labelAr').textContent = languageMap['ar'].label;
             document.getElementById('labelRu').textContent = languageMap['ru'].label;
+            document.getElementById('labelNl').textContent = languageMap['nl'].label;
 
             // Update button states
-            document.getElementById('toggleEn').className = currentLang === 'en' ? 'active' : 'inactive';
-            document.getElementById('toggleZh').className = currentLang === 'zh' ? 'active' : 'inactive';
-            document.getElementById('toggleJa').className = currentLang === 'ja' ? 'active' : 'inactive';
-            document.getElementById('toggleFi').className = currentLang === 'fi' ? 'active' : 'inactive';
-            document.getElementById('toggleAr').className = currentLang === 'ar' ? 'active' : 'inactive';
-            document.getElementById('toggleRu').className = currentLang === 'ru' ? 'active' : 'inactive';
-
-            // Toggle RTL for Arabic only
-            document.body.className = currentLang === 'ar' ? 'arabic' : '';
-        }
-
-        // Add event listeners for each toggle button
-        document.getElementById('toggleEn').addEventListener('click', () => {
-            currentLang = 'en';
-            renderBiases();
-        });
-
-        document.getElementById('toggleZh').addEventListener('click', () => {
-            currentLang = 'zh';
-            renderBiases();
-        });
-
-        document.getElementById('toggleJa').addEventListener('click', () => {
-            currentLang = 'ja';
-            renderBiases();
-        });
-
-        document.getElementById('toggleFi').addEventListener('click', () => {
-            currentLang = 'fi';
-            renderBiases();
-        });
-
-        document.getElementById('toggleAr').addEventListener('click', () => {
-            currentLang = 'ar';
-            renderBiases();
-        });
-
-        document.getElementById('toggleRu').addEventListener('click', () => {
-            currentLang = 'ru';
-            renderBiases();
-        });
-
-        renderBiases();
-    </script>
-</body>
-</html>
+            document.getElementById('toggleEn
