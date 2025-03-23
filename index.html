@@ -55,6 +55,7 @@
             max-width: 100%;
             width: 90%;
             margin: 0 auto;
+            direction: ltr; /* Default left-to-right */
         }
         .bias {
             background-color: #2C2C2C;
@@ -62,6 +63,7 @@
             border-radius: 5px;
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            direction: ltr; /* Default left-to-right for biases */
         }
         .bias h2 {
             margin: 0 0 10px;
@@ -86,6 +88,14 @@
             margin-top: 20px;
             font-style: italic;
             color: #888;
+        }
+        /* RTL adjustments for Arabic */
+        .arabic .bias-container,
+        .arabic .bias,
+        .arabic h1,
+        .arabic footer {
+            direction: rtl;
+            text-align: right;
         }
         @media (min-width: 1200px) {
             .bias-container {
@@ -118,6 +128,14 @@
             <button id="toggleFi" class="inactive">🇫🇮</button>
             <span id="labelFi"></span>
         </div>
+        <div class="toggle-item">
+            <button id="toggleAr" class="inactive">🇸🇦</button>
+            <span id="labelAr"></span>
+        </div>
+        <div class="toggle-item">
+            <button id="toggleRu" class="inactive">🇷🇺</button>
+            <span id="labelRu"></span>
+        </div>
     </div>
     <div class="bias-container" id="biasContainer"></div>
     <footer id="footer"></footer>
@@ -127,13 +145,17 @@
     <script src="constants_zh.js"></script>
     <script src="constants_ja.js"></script>
     <script src="constants_fi.js"></script>
+    <script src="constants_ar.js"></script>
+    <script src="constants_ru.js"></script>
 
     <script>
         const languageMap = {
             'en': constants_en,
             'zh': constants_zh,
             'ja': constants_ja,
-            'fi': constants_fi
+            'fi': constants_fi,
+            'ar': constants_ar,
+            'ru': constants_ru
         };
 
         let currentLang = 'en'; // Start with English
@@ -161,12 +183,19 @@
             document.getElementById('labelZh').textContent = languageMap['zh'].label;
             document.getElementById('labelJa').textContent = languageMap['ja'].label;
             document.getElementById('labelFi').textContent = languageMap['fi'].label;
+            document.getElementById('labelAr').textContent = languageMap['ar'].label;
+            document.getElementById('labelRu').textContent = languageMap['ru'].label;
 
             // Update button states
             document.getElementById('toggleEn').className = currentLang === 'en' ? 'active' : 'inactive';
             document.getElementById('toggleZh').className = currentLang === 'zh' ? 'active' : 'inactive';
             document.getElementById('toggleJa').className = currentLang === 'ja' ? 'active' : 'inactive';
             document.getElementById('toggleFi').className = currentLang === 'fi' ? 'active' : 'inactive';
+            document.getElementById('toggleAr').className = currentLang === 'ar' ? 'active' : 'inactive';
+            document.getElementById('toggleRu').className = currentLang === 'ru' ? 'active' : 'inactive';
+
+            // Toggle RTL for Arabic only
+            document.body.className = currentLang === 'ar' ? 'arabic' : '';
         }
 
         // Add event listeners for each toggle button
@@ -187,6 +216,16 @@
 
         document.getElementById('toggleFi').addEventListener('click', () => {
             currentLang = 'fi';
+            renderBiases();
+        });
+
+        document.getElementById('toggleAr').addEventListener('click', () => {
+            currentLang = 'ar';
+            renderBiases();
+        });
+
+        document.getElementById('toggleRu').addEventListener('click', () => {
+            currentLang = 'ru';
             renderBiases();
         });
 
