@@ -194,4 +194,55 @@
             document.getElementById('labelNl').textContent = languageMap['nl'].label;
 
             // Update button states
-            document.getElementById('toggleEn
+            document.getElementById('toggleEn').className = currentLang === 'en' ? 'active' : 'inactive';
+            document.getElementById('toggleZh').className = currentLang === 'zh' ? 'active' : 'inactive';
+            document.getElementById('toggleJa').className = currentLang === 'ja' ? 'active' : 'inactive';
+            document.getElementById('toggleFi').className = currentLang === 'fi' ? 'active' : 'inactive';
+            document.getElementById('toggleAr').className = currentLang === 'ar' ? 'active' : 'inactive';
+            document.getElementById('toggleRu').className = currentLang === 'ru' ? 'active' : 'inactive';
+            document.getElementById('toggleNl').className = currentLang === 'nl' ? 'active' : 'inactive';
+
+            // Toggle RTL for Arabic only
+            document.body.className = currentLang === 'ar' ? 'arabic' : '';
+        }
+
+        // Add event listeners for each toggle button
+        document.getElementById('toggleEn').addEventListener('click', () => {
+            currentLang = 'en';
+            renderBiases();
+        });
+
+        document.getElementById('toggleZh').addEventListener('click', () => {
+            currentLang = 'zh';
+            renderBiases();
+        });
+
+        document.getElementById('toggleJa').addEventListener('click', () => {
+            currentLang = 'ja';
+            renderBiases();
+        });
+
+        document.getElementById('toggleFi').addEventListener('click', () => {
+            currentLang = 'fi';
+            renderBiases();
+        });
+
+        document.getElementById('toggleAr').addEventListener('click', () => {
+            currentLang = 'ar';
+            renderBiases();
+        });
+
+        document.getElementById('toggleRu').addEventListener('click', () => {
+            currentLang = 'ru';
+            renderBiases();
+        });
+
+        document.getElementById('toggleNl').addEventListener('click', () => {
+            currentLang = 'nl';
+            renderBiases();
+        });
+
+        renderBiases();
+    </script>
+</body>
+</html>
