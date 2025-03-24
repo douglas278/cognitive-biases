@@ -5,22 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Top 50 Cognitive Biases (Dark Mode)</title>
     <style>
-        /* Existing CSS */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
             background-color: #1A1A1A;
             color: #E0E0E0;
         }
-        /* ... other existing styles ... */
-
-        /* RTL adjustments for Arabic and Persian */
-        .rtl .bias-container,
-        .rtl .bias,
-        .rtl h1,
-        .rtl footer {
+        h1 {
+            text-align: center;
+            color: #FFFFFF;
+            margin-bottom: 30px;
+        }
+        .toggle {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .toggle-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        button {
+            font-size: 36px;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            color: #E0E0E0;
+            transition: opacity 0.3s;
+        }
+        button.active {
+            opacity: 1;
+        }
+        button.inactive {
+            opacity: 0.4;
+        }
+        .toggle-item span {
+            font-size: 14px;
+            color: #B0B0B0;
+        }
+        .bias-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            max-width: 100%;
+            width: 90%;
+            margin: 0 auto;
+            direction: ltr; /* Keep LTR for all languages */
+        }
+        .bias {
+            background-color: #2C2C2C;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            direction: ltr; /* Default LTR for bias boxes */
+        }
+        .bias h2 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+        .bias h2 a {
+            color: #4FC3F7;
+            text-decoration: none;
+        }
+        .bias h2 a:hover {
+            text-decoration: underline;
+            color: #81D4FA;
+        }
+        .bias p {
+            margin: 0;
+            font-size: 14px;
+            color: #B0B0B0;
+            line-height: 1.5;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            color: #888;
+        }
+        /* RTL adjustments for Arabic only */
+        .arabic .bias-container,
+        .arabic .bias,
+        .arabic h1,
+        .arabic footer {
             direction: rtl;
             text-align: right;
+        }
+        @media (min-width: 1200px) {
+            .bias-container {
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            }
+        }
+        @media (min-width: 1600px) {
+            .bias-container {
+                grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            }
         }
     </style>
 </head>
@@ -59,7 +144,6 @@
             <button id="toggleHi" class="inactive">🇮🇳</button>
             <span id="labelHi"></span>
         </div>
-        <!-- Add Persian toggle button -->
         <div class="toggle-item">
             <button id="toggleFa" class="inactive">🇮🇷</button>
             <span id="labelFa"></span>
@@ -77,7 +161,6 @@
     <script src="constants_ru.js"></script>
     <script src="constants_nl.js"></script>
     <script src="constants_hi.js"></script>
-    <!-- Add Persian constants -->
     <script src="constants_fa.js"></script>
 
     <script>
@@ -90,7 +173,7 @@
             'ru': constants_ru,
             'nl': constants_nl,
             'hi': constants_hi,
-            'fa': constants_fa  // Add Persian to the language map
+            'fa': constants_fa
         };
 
         let currentLang = 'en'; // Start with English
@@ -122,7 +205,7 @@
             document.getElementById('labelRu').textContent = languageMap['ru'].label;
             document.getElementById('labelNl').textContent = languageMap['nl'].label;
             document.getElementById('labelHi').textContent = languageMap['hi'].label;
-            document.getElementById('labelFa').textContent = languageMap['fa'].label; // Add Persian label
+            document.getElementById('labelFa').textContent = languageMap['fa'].label;
 
             // Update button states
             document.getElementById('toggleEn').className = currentLang === 'en' ? 'active' : 'inactive';
@@ -133,10 +216,10 @@
             document.getElementById('toggleRu').className = currentLang === 'ru' ? 'active' : 'inactive';
             document.getElementById('toggleNl').className = currentLang === 'nl' ? 'active' : 'inactive';
             document.getElementById('toggleHi').className = currentLang === 'hi' ? 'active' : 'inactive';
-            document.getElementById('toggleFa').className = currentLang === 'fa' ? 'active' : 'inactive'; // Add Persian button state
+            document.getElementById('toggleFa').className = currentLang === 'fa' ? 'active' : 'inactive';
 
-            // Toggle RTL for Arabic and Persian
-            document.body.className = (currentLang === 'ar' || currentLang === 'fa') ? 'rtl' : '';
+            // Toggle RTL for Arabic only
+            document.body.className = currentLang === 'ar' ? 'arabic' : '';
         }
 
         // Add event listeners for each toggle button
@@ -180,7 +263,6 @@
             renderBiases();
         });
 
-        // Add Persian event listener
         document.getElementById('toggleFa').addEventListener('click', () => {
             currentLang = 'fa';
             renderBiases();
