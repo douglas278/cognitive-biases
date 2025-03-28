@@ -92,14 +92,18 @@
         /* RTL adjustments for Arabic and Persian */
         .arabic .bias-container,
         .arabic .bias,
-        .arabic h1,
         .arabic footer,
         .persian .bias-container,
         .persian .bias,
-        .persian h1,
         .persian footer {
             direction: rtl;
             text-align: right;
+        }
+        /* Ensure h1 remains centered for Arabic and Persian */
+        .arabic h1,
+        .persian h1 {
+            direction: rtl;
+            text-align: center !important; /* Override text-align: right to keep h1 centered */
         }
         @media (min-width: 1200px) {
             .bias-container {
